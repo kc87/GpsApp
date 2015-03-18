@@ -18,7 +18,7 @@ import kc87.gpsapp.util.NmeaParser;
 public class GpsService extends Service implements LocationListener, GpsStatus.NmeaListener
 {
    private static final String LOG_TAG = "GpsService";
-   private static final long UPDATE_INTERVAL = 1000;
+   private static final long UPDATE_INTERVAL = 488;
    private LocalBinder mLocalBinder = new LocalBinder();
    private LocationManager mLocationManager;
    private long lastEventSend = 0;
@@ -68,7 +68,7 @@ public class GpsService extends Service implements LocationListener, GpsStatus.N
    {
       NmeaParser.parseSentence(nmea);
       if(System.currentTimeMillis() - lastEventSend > UPDATE_INTERVAL) {
-         EventBus.getDefault().post(new GpsUpdateEvent());
+         EventBus.getDefault().post(new GpsUpdateEvent(NmeaParser.getData(),NmeaParser.getState()));
          lastEventSend = System.currentTimeMillis();
       }
    }

@@ -1,33 +1,23 @@
 package kc87.gpsapp;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
-import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import kc87.gpsapp.presenter.MainPresenter;
-import kc87.gpsapp.view.GpsViewData;
-import kc87.gpsapp.view.MainView;
-
-import java.util.ArrayList;
-import java.util.List;
+import kc87.gpsapp.model.GpsService;
+import kc87.gpsapp.presenter.GpsPresenter;
+import kc87.gpsapp.view.GpsView;
 
 
-public class MainActivity extends Activity implements MainView
+public class MainActivity extends Activity implements ServiceConnection
 {
-   private static final String LOG_TAG = "";
-   private MainPresenter mPresenter;
-   private List<TextView> mValueViewList;
-
-   @InjectView(R.id.sats_value) TextView mSatsValueView;
-   @InjectView(R.id.time_value) TextView mTimeValueView;
-   @InjectView(R.id.lat_value) TextView mLatValueView;
-   @InjectView(R.id.lng_value) TextView mLngValueView;
-   @InjectView(R.id.alt_value) TextView mAltValueView;
-   @InjectView(R.id.speed_value) TextView mSpeedValueView;
-   @InjectView(R.id.course_value) TextView mCourseValueView;
+   private static final String LOG_TAG = "MainActivity";
+   private GpsService mGpsService;
+   private GpsPresenter mGpsPresenter;
 
 
    @Override
@@ -35,8 +25,8 @@ public class MainActivity extends Activity implements MainView
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.main);
-      ButterKnife.inject(this);
-      setup();
+      mGpsPresenter = ((GpsView)findViewById(R.id.gps_view)).getPresenter();
+      bindService(new Intent(this, GpsService.class), this, Context.BIND_AUTO_CREATE);
    }
 
    @Override
@@ -44,56 +34,45 @@ public class MainActivity extends Activity implements MainView
    {
       Log.d(LOG_TAG, "onResume()");
       super.onResume();
-      mPresenter.onResume();
+      mGpsPresenter.onResume();
+      if(mGpsService != null) {
+         mGpsService.start();
+      }
    }
 
    @Override
    protected void onPause()
    {
-      Log.d(LOG_TAG,"onPause()");
+      Log.d(LOG_TAG, "onPause()");
       super.onPause();
-      mPresenter.onPause();
+      mGpsPresenter.onPause();
+      if(mGpsService != null) {
+         mGpsService.stop();
+      }
    }
-
 
    @Override
    protected void onDestroy()
    {
-      Log.d(LOG_TAG,"onDestroy()");
-      mPresenter.onDestroy();
+      Log.d(LOG_TAG, "onDestroy()");
+      unbindService(this);
       super.onDestroy();
    }
 
-   private void setup()
-   {
-      mPresenter = new MainPresenter(this);
-
-      mValueViewList = new ArrayList<>();
-
-      mValueViewList.add(mSatsValueView);
-      mValueViewList.add(mTimeValueView);
-      mValueViewList.add(mLatValueView);
-      mValueViewList.add(mLngValueView);
-      mValueViewList.add(mAltValueView);
-      mValueViewList.add(mSpeedValueView);
-      mValueViewList.add(mCourseValueView);
-
-      mPresenter.onCreate();
-   }
-
    @Override
-   public void updateGpsView(final GpsViewData gpsDataSet)
+   public void onServiceConnected(ComponentName name, IBinder service)
    {
-      mSatsValueView.setText(gpsDataSet.satellites);
-      mTimeValueView.setText(gpsDataSet.utcTime);
-      mLatValueView.setText(gpsDataSet.latitude);
-      mLngValueView.setText(gpsDataSet.longitude);
-      mAltValueView.setText(gpsDataSet.altitude);
-      mSpeedValueView.setText(gpsDataSet.speedKmh);
-      mCourseValueView.setText(gpsDataSet.course);
-
-      for(TextView valueView: mValueViewList){
-         valueView.setTextColor(gpsDataSet.hasFix ? Color.GREEN : Color.DKGRAY);
-      }
+      Log.d(LOG_TAG, "onServiceConnected()");
+      mGpsService = ((GpsService.LocalBinder) service).getService();
+      mGpsService.start();
    }
+
+   // Only gets called when service has crashed!!
+   @Override
+   public void onServiceDisconnected(ComponentName name)
+   {
+      Log.d(LOG_TAG, "onServiceDisconnected(): Service has crashed!!");
+      mGpsService = null;
+   }
+
 }
