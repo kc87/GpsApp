@@ -14,41 +14,43 @@ import kc87.gpsapp.presenter.GpsPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GpsView extends LinearLayout
-{
+public class GpsView extends LinearLayout {
    private static final String LOG_TAG = "GpsView";
    private GpsPresenter mPresenter;
    private List<TextView> mValueViewList;
 
-   @InjectView(R.id.sats_value) TextView mSatsValueView;
-   @InjectView(R.id.time_value) TextView mTimeValueView;
-   @InjectView(R.id.lat_value) TextView mLatValueView;
-   @InjectView(R.id.lng_value) TextView mLngValueView;
-   @InjectView(R.id.alt_value) TextView mAltValueView;
-   @InjectView(R.id.speed_value) TextView mSpeedValueView;
-   @InjectView(R.id.course_value) TextView mCourseValueView;
+   @InjectView(R.id.sats_value)
+   TextView mSatsValueView;
+   @InjectView(R.id.time_value)
+   TextView mTimeValueView;
+   @InjectView(R.id.lat_value)
+   TextView mLatValueView;
+   @InjectView(R.id.lng_value)
+   TextView mLngValueView;
+   @InjectView(R.id.alt_value)
+   TextView mAltValueView;
+   @InjectView(R.id.speed_value)
+   TextView mSpeedValueView;
+   @InjectView(R.id.course_value)
+   TextView mCourseValueView;
 
 
-   public GpsView(Context context, AttributeSet attrs)
-   {
+   public GpsView(Context context, AttributeSet attrs) {
       super(context, attrs);
    }
 
-   public GpsPresenter getPresenter()
-   {
+   public GpsPresenter getPresenter() {
       return mPresenter;
    }
 
    @Override
-   protected void onFinishInflate()
-   {
+   protected void onFinishInflate() {
       super.onFinishInflate();
       ButterKnife.inject(this);
       setup();
    }
 
-   public void updateGpsView(final GpsViewData gpsDataSet)
-   {
+   public void updateGpsView(final GpsViewData gpsDataSet) {
       mSatsValueView.setText(gpsDataSet.satellites);
       mTimeValueView.setText(gpsDataSet.utcTime);
       mLatValueView.setText(gpsDataSet.latitude);
@@ -57,13 +59,12 @@ public class GpsView extends LinearLayout
       mSpeedValueView.setText(gpsDataSet.speedKmh);
       mCourseValueView.setText(gpsDataSet.course);
 
-      for(TextView valueView: mValueViewList){
+      for (TextView valueView : mValueViewList) {
          valueView.setTextColor(gpsDataSet.hasFix ? Color.GREEN : Color.DKGRAY);
       }
    }
 
-   private void setup()
-   {
+   private void setup() {
       mValueViewList = new ArrayList<>();
 
       mValueViewList.add(mSatsValueView);

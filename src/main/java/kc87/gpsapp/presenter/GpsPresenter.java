@@ -10,37 +10,32 @@ import kc87.gpsapp.view.GpsViewData;
 
 import java.text.SimpleDateFormat;
 
-public class GpsPresenter
-{
+public class GpsPresenter {
    private static final String LOG_TAG = "GpsPresenter";
    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
    private GpsView mGpsView;
 
-   public GpsPresenter(final GpsView view)
-   {
+   public GpsPresenter(final GpsView view) {
       mGpsView = view;
    }
 
-   public void onResume()
-   {
+   public void onResume() {
       Log.d(LOG_TAG, "onResume()");
       EventBus.getDefault().register(this);
    }
 
-   public void onPause()
-   {
-      Log.d(LOG_TAG,"onPause()");
+   public void onPause() {
+      Log.d(LOG_TAG, "onPause()");
       EventBus.getDefault().unregister(this);
    }
 
    @SuppressWarnings("unused")
-   public void onEvent(final GpsUpdateEvent gpsUpdate)
-   {
+   public void onEvent(final GpsUpdateEvent gpsUpdate) {
       final GpsViewData gpsViewDataSet = new GpsViewData();
       final NmeaParser.Data gpsData = gpsUpdate.data;
       final NmeaParser.State gpsState = gpsUpdate.state;
 
-      if(gpsData.utcTime != null) {
+      if (gpsData.utcTime != null) {
          gpsViewDataSet.utcTime = TIME_FORMAT.format(gpsData.utcTime);
       }
 
