@@ -3,8 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    <!-- maven-android-sdk-deployer: mvn install -P 7.1 -->
+    <!-- mvn clean install -->
+    <!-- mvn android:deploy -->
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>kc87</groupId>
     <artifactId>gpsapp</artifactId>
     <version>0.1.0</version>
@@ -16,28 +18,31 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.7</java.version>
+        <android.platform>25</android.platform>
+        <android.version>7.1.1_r3</android.version>
         <junit.version>4.12</junit.version>
         <robolectric.version>3.0</robolectric.version>
-        <it-plugin.version>4.4.1</it-plugin.version>
+        <it-plugin.version>4.4.3</it-plugin.version>
 
-        <eventbus.version>2.4.1</eventbus.version>
-        <butterknife.version>6.1.0</butterknife.version>
+        <eventbus.version>3.0.0</eventbus.version>
+        <butterknife.version>8.4.0</butterknife.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!--<maven.compiler.compilerId>jack</maven.compiler.compilerId>-->
     </properties>
 
     <dependencies>
 
         <dependency>
-            <groupId>com.google.android</groupId>
+            <groupId>android</groupId>
             <artifactId>android</artifactId>
-            <version>4.1.1.4</version>
+            <version>${android.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>de.greenrobot</groupId>
+            <groupId>org.greenrobot</groupId>
             <artifactId>eventbus</artifactId>
             <version>${eventbus.version}</version>
         </dependency>
@@ -45,6 +50,13 @@
         <dependency>
             <groupId>com.jakewharton</groupId>
             <artifactId>butterknife</artifactId>
+            <version>${butterknife.version}</version>
+            <type>aar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jakewharton</groupId>
+            <artifactId>butterknife-compiler</artifactId>
             <version>${butterknife.version}</version>
         </dependency>
 
@@ -95,12 +107,24 @@
 
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.simpligility.maven.plugins</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <version>${it-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
                 <groupId>com.simpligility.maven.plugins</groupId>
                 <artifactId>android-maven-plugin</artifactId>
                 <configuration>
                     <sdk>
-                        <platform>19</platform>
+                        <platform>${android.platform}</platform>
                     </sdk>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
             </plugin>
         </plugins>

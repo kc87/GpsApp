@@ -10,5 +10,4 @@ public class GpsUpdateEvent {
       this.data = data;
       this.state = state;
    }
-
 }

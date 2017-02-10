@@ -6,8 +6,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import kc87.gpsapp.R;
 import kc87.gpsapp.presenter.GpsPresenter;
 
@@ -19,19 +20,19 @@ public class GpsView extends LinearLayout {
    private GpsPresenter mPresenter;
    private List<TextView> mValueViewList;
 
-   @InjectView(R.id.sats_value)
+   @BindView(R.id.sats_value)
    TextView mSatsValueView;
-   @InjectView(R.id.time_value)
+   @BindView(R.id.time_value)
    TextView mTimeValueView;
-   @InjectView(R.id.lat_value)
+   @BindView(R.id.lat_value)
    TextView mLatValueView;
-   @InjectView(R.id.lng_value)
+   @BindView(R.id.lng_value)
    TextView mLngValueView;
-   @InjectView(R.id.alt_value)
+   @BindView(R.id.alt_value)
    TextView mAltValueView;
-   @InjectView(R.id.speed_value)
+   @BindView(R.id.speed_value)
    TextView mSpeedValueView;
-   @InjectView(R.id.course_value)
+   @BindView(R.id.course_value)
    TextView mCourseValueView;
 
 
@@ -46,7 +47,7 @@ public class GpsView extends LinearLayout {
    @Override
    protected void onFinishInflate() {
       super.onFinishInflate();
-      ButterKnife.inject(this);
+      ButterKnife.bind(this);
       setup();
    }
 
