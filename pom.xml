@@ -139,6 +139,11 @@
                         <platform>${android.platform}</platform>
                     </sdk>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    <proguard>
+                        <skip>false</skip>
+                        <config>proguard.cfg</config>
+                        <proguardJarPath>${env.ANDROID_HOME}/tools/proguard/lib/proguard.jar</proguardJarPath>
+                    </proguard>
                 </configuration>
             </plugin>
         </plugins>
