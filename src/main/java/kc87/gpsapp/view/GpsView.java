@@ -68,6 +68,8 @@ public class GpsView extends LinearLayout {
    private void setup() {
       mValueViewList = new ArrayList<>();
 
+      mSatsValueView = (TextView) findViewById(R.id.sats_value);
+
       mValueViewList.add(mSatsValueView);
       mValueViewList.add(mTimeValueView);
       mValueViewList.add(mLatValueView);

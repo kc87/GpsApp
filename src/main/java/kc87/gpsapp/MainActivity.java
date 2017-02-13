@@ -16,6 +16,7 @@ import kc87.gpsapp.view.GpsView;
 
 import static android.Manifest.permission.*;
 
+
 public class MainActivity extends Activity implements ServiceConnection {
    private static final String LOG_TAG = "MainActivity";
    private static final int PERMISSION_CODE = 42;
@@ -54,7 +55,7 @@ public class MainActivity extends Activity implements ServiceConnection {
    @Override
    protected void onDestroy() {
       Log.d(LOG_TAG, "onDestroy()");
-      if(mIsGpsServiceBound) {
+      if (mIsGpsServiceBound) {
          unbindService(this);
       }
       super.onDestroy();
@@ -79,8 +80,8 @@ public class MainActivity extends Activity implements ServiceConnection {
    @Override
    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
       Log.d(LOG_TAG, "onRequestPermissionsResult()");
-      if(requestCode == PERMISSION_CODE) {
-         if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+      if (requestCode == PERMISSION_CODE) {
+         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             bindService(new Intent(this, GpsService.class), this, Context.BIND_AUTO_CREATE);
          }
       }
@@ -89,8 +90,8 @@ public class MainActivity extends Activity implements ServiceConnection {
    private void setupService() {
       int hasGpsPermission = checkSelfPermission(ACCESS_FINE_LOCATION);
 
-      if(hasGpsPermission != PackageManager.PERMISSION_GRANTED) {
-         requestPermissions(new String[] {ACCESS_FINE_LOCATION}, PERMISSION_CODE);
+      if (hasGpsPermission != PackageManager.PERMISSION_GRANTED) {
+         requestPermissions(new String[]{ACCESS_FINE_LOCATION}, PERMISSION_CODE);
          return;
       }
 

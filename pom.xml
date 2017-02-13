@@ -22,10 +22,10 @@
         <android.version>7.1.1_r3</android.version>
         <junit.version>4.12</junit.version>
         <robolectric.version>3.0</robolectric.version>
-        <it-plugin.version>4.4.3</it-plugin.version>
+        <it-plugin.version>4.4.4-SNAPSHOT</it-plugin.version>
 
         <eventbus.version>3.0.0</eventbus.version>
-        <butterknife.version>8.4.0</butterknife.version>
+        <butterknife.version>8.5.1</butterknife.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -42,6 +42,14 @@
         </dependency>
 
         <dependency>
+            <groupId>com.android.support</groupId>
+            <artifactId>support-compat</artifactId>
+            <version>25.1.0</version>
+            <scope>compile</scope>
+            <type>aar</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.greenrobot</groupId>
             <artifactId>eventbus</artifactId>
             <version>${eventbus.version}</version>
@@ -52,6 +60,12 @@
             <artifactId>butterknife</artifactId>
             <version>${butterknife.version}</version>
             <type>aar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.android.support</groupId>
+                    <artifactId>support-compat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

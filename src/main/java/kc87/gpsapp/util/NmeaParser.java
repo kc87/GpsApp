@@ -211,7 +211,7 @@ public class NmeaParser {
       public float speedKmh = 0.0f;
       public float course = 0.0f;
 
-      public Data(Date t, float lat, float lng, float alt, float speed, float crs) {
+      Data(Date t, float lat, float lng, float alt, float speed, float crs) {
          utcTime = t;
          latitude = lat;
          longitude = lng;
@@ -225,7 +225,7 @@ public class NmeaParser {
       public boolean hasFix = false;
       public int satsInView = 0;
 
-      public State(boolean fix, int sat) {
+      State(boolean fix, int sat) {
          hasFix = fix;
          satsInView = sat;
       }
